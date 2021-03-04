@@ -18,6 +18,7 @@ export default function App() {
 
   const selectCard = useCallback((card) => {
     setSelected((prev) => {
+      if (matched.includes(card.id)) return prev;
       if (prev.length === 2) return [card.id];
 
       return [
@@ -25,7 +26,7 @@ export default function App() {
         card.id,
       ];
     });
-  }, [setSelected]);
+  }, [setSelected, matched]);
 
   useEffect(() => {
     if (selected.length < 2) {

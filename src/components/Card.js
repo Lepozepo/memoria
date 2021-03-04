@@ -26,7 +26,8 @@ export default function Card(props = {}) {
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%)'
+            transform: 'translate(-50%, -50%)',
+            fontSize: 40,
           }}
         >
           {value}
