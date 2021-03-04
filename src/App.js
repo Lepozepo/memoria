@@ -4,9 +4,11 @@ import PlayArea from './components/PlayArea';
 import Card from './components/Card';
 import MismatchIndicator from './components/MismatchIndicator';
 
-const deck = range(24).map((id) => ({
+const NUM_CARDS = 24;
+
+const deck = range(NUM_CARDS).map((id) => ({
   id,
-  value: id % 12
+  value: id % (NUM_CARDS / 2),
 }));
 
 export default function App() {
@@ -15,9 +17,11 @@ export default function App() {
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
   const [mismatch, setMismatch] = useState(false);
+  const [finished, setFinished] = useState(false);
 
   const selectCard = useCallback((card) => {
     setSelected((prev) => {
+      if (prev.includes(card.id)) return prev;
       if (matched.includes(card.id)) return prev;
       if (prev.length === 2) return [card.id];
 
@@ -59,10 +63,36 @@ export default function App() {
         }
         return prev;
       });
-    }, 10000);
+    }, 3000); // NOTE: Difficulty setting?
 
     return () => clearTimeout(timeoutId);
-  }, [mismatch, setSelected]);
+  }, [setSelected]);
+
+  useEffect(() => {
+    if (matched.length === cards.length) {
+      setFinished(true);
+    }
+  }, [matched, cards, setFinished]);
+
+  if (finished) {
+    return (
+      <>
+        <p>Yay!</p>
+        <button
+          onClick={() => {
+            // Ideally we could move this logic into a reducer but this works
+            setSelected([]);
+            setMismatch(false);
+            setMatched([]);
+            setCards(shuffle(deck));
+            setFinished(false);
+          }}
+        >
+          Reset
+        </button>
+      </>
+    );
+  }
 
   return (
     <>
