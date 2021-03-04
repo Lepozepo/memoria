@@ -11,20 +11,24 @@ export default function Card(props = {}) {
         background: selected ? 'gray' : 'black',
         padding: '2px',
         margin: '2px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        position: 'relative',
         borderRadius: '20px',
       }}
       onClick={onClick}
     >
-      <span
-        style={{
-          color: 'white',
-        }}
-      >
-        {value}
-      </span>
+      {selected && (
+        <span
+          style={{
+            color: 'white',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'
+          }}
+        >
+          {value}
+        </span>
+      )}
     </div>
   );
 }
