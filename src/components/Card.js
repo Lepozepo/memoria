@@ -3,6 +3,7 @@ export default function Card(props = {}) {
     value,
     onClick = () => {},
     selected = false,
+    matched = false,
   } = props;
 
   return (
@@ -13,6 +14,8 @@ export default function Card(props = {}) {
         margin: '2px',
         position: 'relative',
         borderRadius: '20px',
+        opacity: matched ? 0 : 1,
+        transition: 'all 150ms ease-in',
       }}
       onClick={onClick}
     >
